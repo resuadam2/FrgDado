@@ -1,7 +1,9 @@
 package com.resuadam2.frgdado;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -17,7 +19,7 @@ public class FrgDado extends Fragment {
 
     private TextView tvResult;
 
-    private int numCaras = 6;
+    private int numCaras = 10;
 
     private boolean debug = true, lanzado = false;
 
@@ -27,11 +29,7 @@ public class FrgDado extends Fragment {
 
 
     public interface OnFragmentInteractionListener {
-        int lanzarDesdeBoton();
-
-        int lanzarDesdeSpinner(int resultado);
-
-        int lanzarExterno();
+       boolean onDadoLanzado(FrgDado frgDado, int numero, int racha, int totalLanzamiento);
 
     }
 
@@ -44,7 +42,7 @@ public class FrgDado extends Fragment {
     }
 
     public void setTvResult(int result) {
-        tvResult.setText(getString(R.string.resultado) + " " + String.valueOf(result));
+        tvResult.setText(String.format("%s %s", getString(R.string.resultado), String.valueOf(result)));
         if (debug) {
             if (result == anterior) {
                 racha++;
@@ -65,14 +63,13 @@ public class FrgDado extends Fragment {
     }
 
     public void setOnFragmentInteractionListener(OnFragmentInteractionListener mListener, int numCaras, boolean debug) {
-        jugando(false);
         this.mListener = mListener;
         this.numCaras = numCaras;
         this.debug = debug;
     }
 
     public void jugando(boolean jugando) {
-        if (jugando) {
+        if (!jugando) {
             btnLanzar.setEnabled(false);
             spnLanzar.setEnabled(false);
         } else {
@@ -86,8 +83,8 @@ public class FrgDado extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View v, Bundle savedInstanceState) {
-        super.onViewCreated(v, savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.frg_dado, container, false);
 
         btnLanzar = (Button) v.findViewById(R.id.btnLanzar);
         spnLanzar = (Spinner) v.findViewById(R.id.spnLanzar);
@@ -101,7 +98,7 @@ public class FrgDado extends Fragment {
 
         btnLanzar.setOnClickListener(v1 -> {
             if (mListener != null) {
-                setTvResult(mListener.lanzarDesdeBoton());
+                setTvResult(this.lanzarDesdeBoton());
                 setLanzado(true);
             }
         });
@@ -110,7 +107,7 @@ public class FrgDado extends Fragment {
             @Override
             public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
                 if (mListener != null) {
-                    setTvResult(mListener.lanzarDesdeSpinner(adaptador.getItem(position)));
+                    setTvResult(lanzarDesdeSpinner(adaptador.getItem(position)));
                     setLanzado(true);
                 }
             }
@@ -121,5 +118,19 @@ public class FrgDado extends Fragment {
             }
         });
 
+        return v;
+
+    }
+
+    private int lanzarDesdeSpinner(Integer item) {
+        return item;
+    }
+
+    /**
+     * Método que devuelve un número aleatorio entre 1 y el número de caras
+     * @return int número aleatorio
+     */
+    private int lanzarDesdeBoton() {
+        return (int) (Math.random() * numCaras) + 1;
     }
 }

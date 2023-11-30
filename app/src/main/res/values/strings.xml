@@ -7,4 +7,5 @@
     <string name="lanzamientos">Lanzamientos:</string>
     <string name="numero_caras">Número de caras:</string>
     <string name="num_dados">Número de dados:</string>
+    <string name="start">Nueva Partida</string>
 </resources>

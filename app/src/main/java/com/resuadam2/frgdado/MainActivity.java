@@ -44,22 +44,9 @@ public class MainActivity extends AppCompatActivity implements FrgDado.OnFragmen
 
     }
 
-    /**
-     * Método que genera un número aleatorio desde 1 a numCaras
-     * @return int número aleatorio
-     */
-    @Override
-    public int lanzarDesdeBoton() {
-        return (int) (Math.random() * Integer.parseInt(etNumCaras.getText().toString())) + 1;
-    }
 
     @Override
-    public int lanzarDesdeSpinner(int resultado) {
-        return resultado;
-    }
-
-    @Override
-    public int lanzarExterno() {
-        return lanzarDesdeBoton();
+    public boolean onDadoLanzado(FrgDado frgDado, int numero, int racha, int totalLanzamiento) {
+        return false;
     }
 }
