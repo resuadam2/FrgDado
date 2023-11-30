@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">FrgDado</string>
+    <string name="resultado">"Resultado tirada: "</string>
+    <string name="lanzar">Lanzar</string>
+    <string name="racha">"Racha: "</string>
+    <string name="nothingSelected">Debe seleccionar un número para efectuar una tirada</string>
+    <string name="lanzamientos">Lanzamientos:</string>
+    <string name="numero_caras">Número de caras:</string>
+    <string name="num_dados">Número de dados:</string>
+</resources>
