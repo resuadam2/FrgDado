@@ -57,14 +57,13 @@ public class FrgDado extends Fragment {
                     tiradas.add(result);
                 } else {
                     racha = 0;
-                    tiradas.clear();
                     tiradas.add(result);
                 }
             } else {
                 tiradas.add(result);
             }
             if (debug) {
-                tvResult.setText(String.format("Dado: %d (%d)", result, tiradas.size()));
+                tvResult.setText(R.string.resultado + String.format("\nDado: %d (%d)", result, tiradas.size())); //TODO: recurso está devolviendo el ID
                 if (racha > 0) {
                     tvResult.append(String.format("\n Racha: %d", racha));
                 }
@@ -85,7 +84,9 @@ public class FrgDado extends Fragment {
                                                  int numCaras, boolean debug) {
         this.mListener = mListener;
         this.numCaras = numCaras;
+        this.tiradas.clear();
         setSpnLanzar(numCaras);
+        tvResult.setText(R.string.resultado);
         this.debug = debug;
     }
 

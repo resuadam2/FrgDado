@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements FrgDado.OnFragmen
            frgDado1.jugando(true);
            frgDado2.setOnFragmentInteractionListener(this, numCaras, true);
            frgDado2.jugando(true);
+           btnFinPartida.setEnabled(false);
         });
 
         btnFinPartida.setOnClickListener(v -> {
