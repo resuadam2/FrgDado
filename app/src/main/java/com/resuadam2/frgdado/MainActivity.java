@@ -40,6 +40,26 @@ public class MainActivity extends AppCompatActivity implements FrgDado.OnFragmen
 
         btnStart.setOnClickListener(v -> {
             // int numDados = Integer.parseInt(etNumDados.getText().toString());
+
+            if (etNumDados.getText().toString().equals("") || etNumDados.getText().toString().equals("0")) {
+                Toast.makeText(this, "Debes introducir un número de dados válido", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (Integer.parseInt(etNumDados.getText().toString()) < 2) {
+                Toast.makeText(this, "El número de dados debe ser mayor que 1", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (etNumCaras.getText().toString().equals("") || etNumCaras.getText().toString().equals("0")) {
+                Toast.makeText(this, "Debes introducir un número de caras válido", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (Integer.parseInt(etNumCaras.getText().toString()) < 2) {
+                Toast.makeText(this, "El número de caras debe ser mayor que 1", Toast.LENGTH_SHORT).show();
+                return;
+            }
             int numCaras = Integer.parseInt(etNumCaras.getText().toString());
            frgDado1.setOnFragmentInteractionListener(this, numCaras, true);
            frgDado1.jugando(true);

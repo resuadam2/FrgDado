@@ -48,6 +48,7 @@ public class StatsActivity extends AppCompatActivity {
             partidas.add(cursor.getString(0) + " tiradas: " + cursor.getString(1) + " racha máxima: " + cursor.getString(2));
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, partidas);
+        lvPartidas.setAdapter(adapter);
 
         Button btnBorrar = findViewById(R.id.btnBorrarHistDiff);
         btnBorrar.setOnClickListener(v -> {
