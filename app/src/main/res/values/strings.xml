@@ -8,4 +8,8 @@
     <string name="numero_caras">Número de caras:</string>
     <string name="num_dados">Número de dados:</string>
     <string name="start">Nueva Partida</string>
+    <string name="fin_partida">Fin Partida</string>
+    <string name="dificultad">"Dificultad: "</string>
+    <string name="ultima_partida">Última Partida:</string>
+    <string name="borrar_hist_dif">Borrar Historial Dificultad Actual</string>
 </resources>

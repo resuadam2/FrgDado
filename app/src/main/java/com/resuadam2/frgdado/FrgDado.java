@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+
 public class FrgDado extends Fragment {
 
     private Button btnLanzar;
@@ -25,11 +27,13 @@ public class FrgDado extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    private int racha = 0, anterior= 0;
+    private int racha = 0;
+
+    private ArrayList<Integer> tiradas = new ArrayList<>();
 
 
     public interface OnFragmentInteractionListener {
-       boolean onDadoLanzado(FrgDado frgDado, int numero, int racha, int totalLanzamiento);
+        boolean onDadoLanzado(FrgDado frgDado, int numero, int racha, int totalLanzamiento);
 
     }
 
@@ -41,16 +45,31 @@ public class FrgDado extends Fragment {
         this.numCaras = numCaras;
     }
 
-    public void setTvResult(int result) {
-        tvResult.setText(String.format("%s %s", getString(R.string.resultado), String.valueOf(result)));
-        if (debug) {
-            if (result == anterior) {
-                racha++;
-                tvResult.append("\n" + getString(R.string.racha) + " " + String.valueOf(racha));
+    public boolean isLanzado() {
+        return lanzado;
+    }
+
+    public void lanzamiento(Integer result) {
+        if (mListener != null) {
+            if (tiradas.size() > 0) {
+                if (result == tiradas.get(tiradas.size() - 1)) {
+                    racha++;
+                    tiradas.add(result);
+                } else {
+                    racha = 0;
+                    tiradas.clear();
+                    tiradas.add(result);
+                }
             } else {
-                racha = 0;
+                tiradas.add(result);
             }
-            anterior = result;
+            if (debug) {
+                tvResult.setText(String.format("Dado: %d (%d)", result, tiradas.size()));
+                if (racha > 0) {
+                    tvResult.append(String.format("\n Racha: %d", racha));
+                }
+            }
+            mListener.onDadoLanzado(this, result, racha, tiradas.size());
         }
     }
 
@@ -58,13 +77,15 @@ public class FrgDado extends Fragment {
         return racha;
     }
 
-    public int getAnterior() {
-        return anterior;
+    public ArrayList<Integer> getTiradas() {
+        return tiradas;
     }
 
-    public void setOnFragmentInteractionListener(OnFragmentInteractionListener mListener, int numCaras, boolean debug) {
+    public void setOnFragmentInteractionListener(OnFragmentInteractionListener mListener,
+                                                 int numCaras, boolean debug) {
         this.mListener = mListener;
         this.numCaras = numCaras;
+        setSpnLanzar(numCaras);
         this.debug = debug;
     }
 
@@ -82,33 +103,25 @@ public class FrgDado extends Fragment {
         this.lanzado = lanzado;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.frg_dado, container, false);
-
-        btnLanzar = (Button) v.findViewById(R.id.btnLanzar);
-        spnLanzar = (Spinner) v.findViewById(R.id.spnLanzar);
-
-        ArrayAdapter<Integer> adaptador = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item);
+    private void setSpnLanzar(int numCaras) {
+        ArrayAdapter<String> adaptador = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item);
+        adaptador.add("");
         for (int i = 1; i <= numCaras; i++) {
-            adaptador.add(i);
+            adaptador.add(i + "");
         }
         adaptador.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnLanzar.setAdapter(adaptador);
 
-        btnLanzar.setOnClickListener(v1 -> {
-            if (mListener != null) {
-                setTvResult(this.lanzarDesdeBoton());
-                setLanzado(true);
-            }
-        });
 
         spnLanzar.setOnItemSelectedListener(new Spinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
                 if (mListener != null) {
-                    setTvResult(lanzarDesdeSpinner(adaptador.getItem(position)));
-                    setLanzado(true);
+                    if(!adaptador.getItem(position).equals("")){
+                        lanzamiento(lanzarDesdeSpinner(Integer.parseInt(adaptador.getItem(position))));
+                        setLanzado(true);
+                        spnLanzar.setSelection(0);
+                    }
                 }
             }
 
@@ -117,20 +130,42 @@ public class FrgDado extends Fragment {
                 Toast.makeText(getActivity(), getString(R.string.nothingSelected), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
+        View v = inflater.inflate(R.layout.frg_dado, container, false);
+
+        btnLanzar = (Button) v.findViewById(R.id.btnLanzar);
+        spnLanzar = (Spinner) v.findViewById(R.id.spnLanzar);
+        if (debug) {
+            tvResult = (TextView) v.findViewById(R.id.tvResult);
+        }
+
+        btnLanzar.setOnClickListener(v1 -> {
+            if (mListener != null) {
+                lanzamiento(this.lanzarDesdeBoton());
+                setLanzado(true);
+            }
+        });
+
+        setSpnLanzar(numCaras);
 
         return v;
 
     }
 
-    private int lanzarDesdeSpinner(Integer item) {
+    private Integer lanzarDesdeSpinner(Integer item) {
         return item;
     }
 
     /**
      * Método que devuelve un número aleatorio entre 1 y el número de caras
+     *
      * @return int número aleatorio
      */
-    private int lanzarDesdeBoton() {
+    private Integer lanzarDesdeBoton() {
         return (int) (Math.random() * numCaras) + 1;
     }
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListView
+        android:id="@+id/lvPartidas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnBorrarHistDiff"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/tvDatosUltimaPartida"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ultima_partida"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnBorrarHistDiff"
+        app:layout_constraintEnd_toEndOf="@+id/btnBorrarHistDiff"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/btnBorrarHistDiff"
+        app:layout_constraintTop_toBottomOf="@+id/tvDificultad" />
+
+    <Button
+        android:id="@+id/btnBorrarHistDiff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/borrar_hist_dif"
+        app:layout_constraintBottom_toTopOf="@+id/lvPartidas"
+        app:layout_constraintEnd_toEndOf="@+id/lvPartidas"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/lvPartidas"
+        app:layout_constraintTop_toBottomOf="@+id/tvDatosUltimaPartida" />
+
+    <TextView
+        android:id="@+id/tvDificultad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dificultad"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/tvDatosUltimaPartida"
+        app:layout_constraintEnd_toEndOf="@+id/tvDatosUltimaPartida"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/tvDatosUltimaPartida"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
