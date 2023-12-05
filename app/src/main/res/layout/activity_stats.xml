@@ -8,7 +8,7 @@
     <ListView
         android:id="@+id/lvPartidas"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/lv_hist_height"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnBorrarHistDiff"

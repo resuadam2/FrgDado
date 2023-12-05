@@ -41,7 +41,7 @@ public class StatsActivity extends AppCompatActivity {
         tvDatosUltimaPartida = findViewById(R.id.tvDatosUltimaPartida);
         tvDatosUltimaPartida.setText(tvDatosUltimaPartida.getText().toString() + "\n " + tiradas + " tiradas, " + rachaMax + " racha máxima");
 
-        lvPartidas = findViewById(R.id.lvPartidas);
+        lvPartidas = findViewById(R.id.lvPartidas); // Lista de partidas
         ArrayList<String> partidas = new ArrayList<>();
         Cursor cursor = dbManager.getPartidasPorDificultad(dificultad);
         while (cursor.moveToNext()) {
@@ -50,7 +50,7 @@ public class StatsActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, partidas);
         lvPartidas.setAdapter(adapter);
 
-        Button btnBorrar = findViewById(R.id.btnBorrarHistDiff);
+        Button btnBorrar = findViewById(R.id.btnBorrarHistDiff); // Botón de borrar historial
         btnBorrar.setOnClickListener(v -> {
             dbManager.deletePartidasPorDificultad(dificultad);
             Toast.makeText(this, "Partidas borradas", Toast.LENGTH_SHORT).show();

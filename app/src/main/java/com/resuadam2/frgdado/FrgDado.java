@@ -14,24 +14,33 @@ import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
+/**
+ * Clase FrgDado que extiende de Fragment y que representa un dado en la aplicación
+ * El dado está implementado como un componente reutilizable que se puede añadir a la actividad
+ * @version 1.0
+ * @see Fragment
+ */
 public class FrgDado extends Fragment {
 
-    private Button btnLanzar;
-    private Spinner spnLanzar;
+    private Button btnLanzar; // Botón de lanzar
+    private Spinner spnLanzar; // Selector de lanzar
 
-    private TextView tvResult;
+    private TextView tvResult; // Texto de resultado
 
-    private int numCaras = 10;
+    private int numCaras = 10; // Número de caras
 
-    private boolean debug = true, lanzado = false;
+    private boolean debug = true, lanzado = false; // Modo debug y si se ha lanzado
 
-    private OnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListener mListener; // Listener de interacción
 
-    private int racha = 0;
+    private int racha = 0; // Racha de tiradas
 
-    private ArrayList<Integer> tiradas = new ArrayList<>();
+    private ArrayList<Integer> tiradas = new ArrayList<>(); // Lista de tiradas
 
 
+    /**
+     * Interfaz de interacción con la actividad
+     */
     public interface OnFragmentInteractionListener {
         boolean onDadoLanzado(FrgDado frgDado, int numero, int racha, int totalLanzamiento);
 
@@ -49,6 +58,10 @@ public class FrgDado extends Fragment {
         return lanzado;
     }
 
+    /**
+     * Método que se ejecuta cuando se lanza el dado
+     * @param result resultado del lanzamiento
+     */
     public void lanzamiento(Integer result) {
         if (mListener != null) {
             if (tiradas.size() > 0) {
@@ -63,7 +76,7 @@ public class FrgDado extends Fragment {
                 tiradas.add(result);
             }
             if (debug) {
-                tvResult.setText(R.string.resultado + String.format("\nDado: %d (%d)", result, tiradas.size())); //TODO: recurso está devolviendo el ID
+                tvResult.setText(getString(R.string.resultado) + String.format("\nDado: %d (%d)", result, tiradas.size()));
                 if (racha > 0) {
                     tvResult.append(String.format("\n Racha: %d", racha));
                 }
@@ -80,6 +93,12 @@ public class FrgDado extends Fragment {
         return tiradas;
     }
 
+    /**
+     * Método que se ejecuta cuando se crea el fragmento
+     * @param mListener listener de interacción
+     * @param numCaras número de caras
+     * @param debug modo debug
+     */
     public void setOnFragmentInteractionListener(OnFragmentInteractionListener mListener,
                                                  int numCaras, boolean debug) {
         this.mListener = mListener;
@@ -90,6 +109,10 @@ public class FrgDado extends Fragment {
         this.debug = debug;
     }
 
+    /**
+     * Método que cambia el estado del dado para activarlo o desactivarlo según se esté jugando
+     * @param jugando si se está jugando
+     */
     public void jugando(boolean jugando) {
         if (!jugando) {
             btnLanzar.setEnabled(false);
@@ -104,6 +127,12 @@ public class FrgDado extends Fragment {
         this.lanzado = lanzado;
     }
 
+    /**
+     * Setter del selector del spinner de lanzar, crea el spinner con tantas opciones como
+     * caras haya, además de añadir la opción vacía a la que se autoajusta por defecto tras
+     * lanzar el dado
+     * @param numCaras número de caras
+     */
     private void setSpnLanzar(int numCaras) {
         ArrayAdapter<String> adaptador = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item);
         adaptador.add("");
@@ -133,6 +162,18 @@ public class FrgDado extends Fragment {
         });
     }
 
+    /**
+     * Método que se ejecuta cuando se crea el fragmento
+     * @param inflater The LayoutInflater object that can be used to inflate
+     * any views in the fragment,
+     * @param container If non-null, this is the parent view that the fragment's
+     * UI should be attached to.  The fragment should not add the view itself,
+     * but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     *
+     * @return View vista del fragmento
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
@@ -157,6 +198,13 @@ public class FrgDado extends Fragment {
 
     }
 
+    /**
+     * Método que devuelve el item seleccionado en el spinner
+     * Nota*: Está de una implementación anterior, actualmente es innecesario, podría
+     * sustituirse en dónde se usa por la simple devolución del item
+     * @param item item seleccionado
+     * @return int item seleccionado
+     */
     private Integer lanzarDesdeSpinner(Integer item) {
         return item;
     }
